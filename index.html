@@ -504,7 +504,10 @@
     <button class="topbar-home-btn" onclick="show('main-menu')">🏠</button>
   </div>
   <div style="flex:1; overflow-y:auto;">
-    <div class="quiz-chapter-select">
+      <div class="quiz-chapter-select">
+      <div class="quiz-chapter-btn" onclick="startQuiz(1)">BAB 1 — Kedudukan dan Fungsi Pancasila <span>▶</span></div>
+      <div class="quiz-chapter-btn" onclick="startQuiz(2)">BAB 2 — Bentuk dan Kedaulatan Negara <span>▶</span></div>
+      <div class="quiz-chapter-btn" onclick="startQuiz(3)">BAB 3 — Tata Negara dan Pemerintahan <span>▶</span></div>
       <div class="quiz-chapter-btn" onclick="startQuiz(4)">BAB 4 — Melestarikan Budaya Bangsaku <span>▶</span></div>
       <div class="quiz-chapter-btn" onclick="startQuiz(5)">BAB 5 — Merawat Keutuhan Bangsa <span>▶</span></div>
     </div>
@@ -566,6 +569,11 @@
           </div>
           <div class="refleksi-field">
             <textarea rows="3" placeholder="tulis jawabanmu disini!" id="r3" style="font-size: 1rem;"></textarea>
+          </div>
+          <div class="refleksi-field">
+            <label style="font-size: 1rem;">Seberapa paham kamu dengan materi ini? (1-5)</label>
+            <input type="range" min="1" max="5" value="3" id="rating" oninput="document.getElementById('rating-val').textContent = this.value">
+            <span id="rating-val" style="font-size: 1.2rem; font-weight: bold;">3</span>
           </div>
         </div>
         
@@ -815,6 +823,81 @@ function changeMateri(dir) {
 
 // ===== QUIZ DATA =====
 const quizData = {
+  1: {
+    title: 'BAB 1 — Kedudukan dan Fungsi Pancasila',
+    questions: [
+      { q: "Pancasila sebagai dasar negara berarti…", opts: ["Pedoman hidup pribadi","Landasan penyelenggaraan negara","Sumber budaya bangsa","Ideologi luar negeri"], ans: 1, pembahasan: "Pancasila menjadi landasan penyelenggaraan negara" },
+      { q: "Pancasila sebagai dasar negara tercantum dalam…", opts: ["Batang tubuh UUD 1945","Pembukaan UUD 1945 alinea keempat","Pasal 1 UUD 1945","TAP MPR"], ans: 1, pembahasan: "Pancasila disebutkan dalam pembukaan UUD 1945 alinea ke-4" },
+      { q: "Nilai dasar yang menjadi fondasi negara Indonesia adalah…", opts: ["UUD 1945","Pancasila","Undang-undang","Peraturan pemerintah"], ans: 1, pembahasan: "Pancasila adalah dasar negara Indonesia" },
+      { q: "Pancasila sebagai pandangan hidup bangsa berarti…", opts: ["Aturan hukum negara","Dasar politik luar negeri","Pedoman dalam kehidupan sehari-hari","Sistem ekonomi negara"], ans: 2, pembahasan: "Pancasila menjadi pedoman perilaku sehari-hari" },
+      { q: "Nilai ketuhanan dalam Pancasila mencerminkan bahwa bangsa Indonesia…", opts: ["Bersifat bebas","Bersifat religius","Bersifat individualis","Bersifat materialis"], ans: 1, pembahasan: "Bangsa Indonesia berlandaskan keimanan kepada Tuhan" },
+      { q: "Pancasila sebagai sumber dari segala sumber hukum berarti…", opts: ["Semua hukum berasal dari rakyat","Pancasila menjadi acuan dalam pembentukan hukum","Hukum lebih tinggi dari Pancasila","Pancasila tidak mengikat hukum"], ans: 1, pembahasan: "Pancasila menjadi dasar pembentukan segala hukum" },
+      { q: "Teori hierarki hukum yang menempatkan Pancasila sebagai norma tertinggi dikemukakan oleh…", opts: ["Soekarno","Hans Kelsen","Hans Nawiasky","Soepomo"], ans: 2, pembahasan: "Hans Nawiasky menempatkan Pancasila sebagai Staatsfundamentalnorm" },
+      { q: "Dalam hierarki hukum, Pancasila disebut sebagai…", opts: ["Undang-undang","Staatsgrundgesetz","Staatsfundamentalnorm","Peraturan daerah"], ans: 2, pembahasan: "Pancasila adalah Staatsfundamentalnorm (norma fundamental negara)" },
+      { q: "Pancasila sebagai kepribadian bangsa berarti…", opts: ["Identitas dan karakter bangsa Indonesia","Aturan hukum negara","Sistem pemerintahan","Ideologi asing"], ans: 0, pembahasan: "Pancasila mencerminkan jati diri bangsa Indonesia" },
+      { q: "Sikap gotong royong mencerminkan sila…", opts: ["Pertama","Kedua","Ketiga","Kelima"], ans: 3, pembahasan: "Gotong royong mencerminkan keadilan sosial (sila ke-5)" },
+      { q: "Musyawarah untuk mufakat merupakan pengamalan sila…", opts: ["Pertama","Kedua","Keempat","Kelima"], ans: 2, pembahasan: "Musyawarah mufakat adalah sila ke-4" },
+      { q: "Tidak membeda-bedakan orang lain merupakan pengamalan sila…", opts: ["Pertama","Kedua","Ketiga","Kelima"], ans: 1, pembahasan: "Sila ke-2 tentang kemanusiaan yang adil dan beradab" },
+      { q: "Pancasila sebagai cita-cita bangsa berarti…", opts: ["Aturan hukum","Tujuan yang ingin dicapai bangsa","Sistem ekonomi","Ideologi asing"], ans: 1, pembahasan: "Pancasila sebagai pandangan tentang tujuan bangsa" },
+      { q: "Tujuan negara Indonesia salah satunya adalah…", opts: ["Menguasai negara lain","Memperkaya pejabat","Mencerdaskan kehidupan bangsa","Menjajah bangsa lain"], ans: 2, pembahasan: "Tujuan negara dalam Pembukaan UUD 1945" },
+      { q: "Nilai persatuan dalam Pancasila bertujuan untuk…", opts: ["Memecah belah bangsa","Menyatukan bangsa Indonesia","Menguasai daerah lain","Menghilangkan budaya"], ans: 1, pembahasan: "Sila ke-3 Persatuan Indonesia" },
+      { q: "Pancasila tidak dapat dipisah-pisahkan karena…", opts: ["Memiliki satu sila","Merupakan satu kesatuan","Tidak penting","Bersifat sementara"], ans: 1, pembahasan: "Pancasila adalah kesatuan yang utuh" },
+      { q: "Contoh penerapan Pancasila di sekolah adalah…", opts: ["Tawuran","Mencontek","Musyawarah dalam organisasi","Membolos"], ans: 2, pembahasan: "Musyawarah mencerminkan sila ke-4" },
+      { q: "Bangsa Indonesia menolak penjajahan karena bertentangan dengan…", opts: ["Ekonomi","Politik","Perikemanusiaan dan perikeadilan","Budaya"], ans: 2, pembahasan: "Alasan pidato Soekarno 1 Juni 1945" },
+      { q: "Salah satu fungsi Pancasila adalah sebagai…", opts: ["Dasar negara","Alat perang","Sistem ekonomi","Mata uang"], ans: 0, pembahasan: "Pancasila sebagai dasar negara" },
+      { q: "Pancasila sebagai pandangan hidup berarti menjadi…", opts: ["Pedoman dalam bertindak","Alat kekuasaan","Sistem hukum saja","Ideologi luar negeri"], ans: 0, pembahasan: "Pedoman perilaku bangsa" }
+    ],
+  },
+  2: {
+    title: 'BAB 2 — Bentuk dan Kedaulatan Negara',
+    questions: [
+      { q: "Bentuk negara Indonesia adalah…", opts: ["Serikat","Monarki","Kesatuan","Oligarki"], ans: 2, pembahasan: "NKRI adalah negara kesatuan" },
+      { q: "Negara kesatuan adalah negara yang…", opts: ["Memiliki banyak negara bagian","Kekuasaan tertinggi berada di pemerintah pusat","Dipimpin oleh raja","Tidak memiliki wilayah"], ans: 1, pembahasan: "Pemerintah pusat memiliki kewenangan tertinggi" },
+      { q: "Indonesia disebut sebagai negara kesatuan yang berbentuk…", opts: ["Monarki","Republik","Serikat","Koloni"], ans: 1, pembahasan: "Republik = kepala negara dipilih rakyat" },
+      { q: "Bentuk negara yang kepala negaranya dipilih oleh rakyat disebut…", opts: ["Monarki","Republik","Oligarki","Diktator"], ans: 1, pembahasan: "Republik = dipilih rakyat" },
+      { q: "Kepala negara Indonesia adalah…", opts: ["Raja","Perdana Menteri","Presiden","Gubernur"], ans: 2, pembahasan: "Presiden sebagai kepala negara dan pemerintahan" },
+      { q: "Indonesia menganut kedaulatan…", opts: ["Raja","Rakyat","Militer","Pemerintah pusat"], ans: 1, pembahasan: "Kedaulatan rakyat (Pasal 1 ayat 2 UUD 1945)" },
+      { q: "Kedaulatan rakyat berarti…", opts: ["Kekuasaan di tangan raja","Kekuasaan di tangan rakyat","Kekuasaan di tangan militer","Kekuasaan di tangan presiden saja"], ans: 1, pembahasan: "Kekuasaan tertinggi di tangan rakyat" },
+      { q: "Pelaksanaan kedaulatan rakyat di Indonesia diatur dalam…", opts: ["UU biasa","Peraturan daerah","UUD 1945","Keputusan presiden"], ans: 2, pembahasan: "UUD 1945 Pasal 1 ayat 2 dan 3" },
+      { q: "Indonesia adalah negara hukum, artinya…", opts: ["Semua bebas bertindak","Hukum tertinggi di negara","Presiden berkuasa penuh","Tidak ada aturan"], ans: 1, pembahasan: "Rechtsstaat - negara hukum" },
+      { q: "Ciri negara hukum adalah…", opts: ["Kekuasaan mutlak","Tidak ada hukum","Semua warga negara sama di depan hukum","Hanya pejabat yang dilindungi hukum"], ans: 2, pembahasan: "Persamaan di depan hukum" },
+      { q: "Istilah \"equality before the law\" berarti…", opts: ["Kebebasan hukum","Persamaan di depan hukum","Keadilan sosial","Hak asasi manusia"], ans: 1, pembahasan: "Semua sama di mata hukum" },
+      { q: "Negara republik dipimpin oleh…", opts: ["Raja","Kaisar","Presiden","Sultan"], ans: 2, pembahasan: "Presiden dipilih rakyat" },
+      { q: "Indonesia pernah berbentuk negara serikat pada tahun…", opts: ["1945","1949","1950","1965"], ans: 1, pembahasan: "RIS 1949-1950" },
+      { q: "Negara hukum bertujuan untuk…", opts: ["Melindungi hak warga negara","Menguntungkan pejabat","Membatasi rakyat","Memperkuat kekuasaan"], ans: 0, pembahasan: "Menjamin hak dan kebebasan warga" },
+      { q: "Salah satu contoh pelaksanaan kedaulatan rakyat adalah…", opts: ["Penunjukan langsung pemimpin","Pemilihan umum","Warisan jabatan","Kudeta"], ans: 1, pembahasan: "Pemilu adalah wujud kedaulatan rakyat" },
+      { q: "Indonesia sebagai negara kesatuan berarti…", opts: ["Terdiri dari negara bagian","Tidak memiliki pemerintah pusat","Satu pemerintahan pusat","Dipimpin oleh raja"], ans: 2, pembahasan: "Pemerintah pusat tertinggi" },
+      { q: "Negara hukum Indonesia didasarkan pada…", opts: ["Kekuasaan presiden","Pancasila","Militer","Raja"], ans: 1, pembahasan: "Pancasila dan UUD 1945" },
+      { q: "Kekuasaan tertinggi dalam negara demokrasi berada di…", opts: ["Presiden","DPR","Rakyat","Hakim"], ans: 2, pembahasan: "Kedaulatan di tangan rakyat" },
+      { q: "Pemilu merupakan bentuk dari…", opts: ["Kekuasaan raja","Kedaulatan rakyat","Kekuasaan militer","Oligarki"], ans: 1, pembahasan: "Pemilu = pelaksanaan kedaulatan rakyat" },
+      { q: "Negara yang berdasarkan hukum harus menjunjung tinggi…", opts: ["Kekuasaan","Keadilan","Kekayaan","Kepentingan pribadi"], ans: 1, pembahasan: "Prinsip keadilan dalam negara hukum" }
+    ],
+  },
+  3: {
+    title: 'BAB 3 — Tata Negara dan Pemerintahan',
+    questions: [
+      { q: "Lembaga yang memiliki kekuasaan membuat undang-undang adalah…", opts: ["Presiden","DPR","MA","BPK"], ans: 1, pembahasan: "DPR adalah lembaga legislatif" },
+      { q: "Lembaga eksekutif di Indonesia adalah…", opts: ["DPR","MA","Presiden","MPR"], ans: 2, pembahasan: "Presiden sebagai eksekutif" },
+      { q: "Lembaga yudikatif berfungsi untuk…", opts: ["Membuat undang-undang","Menjalankan pemerintahan","Mengadili perkara hukum","Mengawasi keuangan"], ans: 2, pembahasan: "Yudikatif mengadili perkara" },
+      { q: "Mahkamah Agung (MA) termasuk lembaga…", opts: ["Legislatif","Eksekutif","Yudikatif","Konsultatif"], ans: 2, pembahasan: "MA adalah lembaga yudikatif tertinggi" },
+      { q: "Sistem pemerintahan Indonesia adalah…", opts: ["Parlementer","Presidensial","Monarki","Liberal"], ans: 1, pembahasan: "Sistem presidensial" },
+      { q: "Presiden dalam sistem presidensial berfungsi sebagai…", opts: ["Kepala negara saja","Kepala pemerintahan saja","Kepala negara dan kepala pemerintahan","Menteri utama"], ans: 2, pembahasan: "Dual function presiden" },
+      { q: "Menteri dalam pemerintahan bertugas sebagai…", opts: ["Pembuat undang-undang","Pembantu presiden","Hakim negara","Pengawas keuangan"], ans: 1, pembahasan: "Menteri membantu presiden menjalankan pemerintahan" },
+      { q: "Lembaga yang berwenang mengubah dan menetapkan UUD adalah…", opts: ["DPR","Presiden","MPR","MA"], ans: 2, pembahasan: "MPR berwenang mengubah UUD" },
+      { q: "Pemerintahan daerah terdiri atas…", opts: ["Desa saja","Provinsi saja","Provinsi, kabupaten, dan kota","Kecamatan saja"], ans: 2, pembahasan: "Struktur pemerintahan daerah" },
+      { q: "Kepala daerah provinsi adalah…", opts: ["Bupati","Walikota","Gubernur","Presiden"], ans: 2, pembahasan: "Gubernur adalah kepala provinsi" },
+      { q: "Kepala daerah kabupaten adalah…", opts: ["Gubernur","Walikota","Bupati","Presiden"], ans: 2, pembahasan: "Bupati kepala kabupaten" },
+      { q: "Kepala daerah kota adalah…", opts: ["Bupati","Gubernur","Walikota","Menteri"], ans: 2, pembahasan: "Walikota kepala kota" },
+      { q: "Otonomi daerah berarti…", opts: ["Pemerintah pusat berkuasa penuh","Daerah mengatur urusan sendiri","Tidak ada aturan","Semua keputusan dari pusat"], ans: 1, pembahasan: "Otonomi = kewenangan daerah mengatur diri sendiri" },
+      { q: "Tujuan otonomi daerah adalah…", opts: ["Memperlemah daerah","Mempercepat pembangunan daerah","Menghapus pemerintah daerah","Memusatkan kekuasaan"], ans: 1, pembahasan: "Pembangunan lebih cepat dan merata" },
+      { q: "Contoh daerah istimewa di Indonesia adalah…", opts: ["Jawa Barat","Bali","Yogyakarta","Lampung"], ans: 2, pembahasan: "DIY sebagai daerah istimewa" },
+      { q: "Daerah yang memiliki kekhususan atau keistimewaan disebut…", opts: ["Daerah biasa","Daerah otonom","Daerah istimewa","Daerah pusat"], ans: 2, pembahasan: "Status khusus berdasarkan sejarah/kebudayaan" },
+      { q: "DPRD merupakan lembaga…", opts: ["Pusat","Desa","Daerah","Internasional"], ans: 2, pembahasan: "Dewan Perwakilan Rakyat Daerah" },
+      { q: "Fungsi utama DPRD adalah…", opts: ["Mengadili perkara","Membuat peraturan daerah","Menjalankan pemerintahan","Mengawasi presiden"], ans: 1, pembahasan: "Legislatif daerah" },
+      { q: "Sistem pembagian kekuasaan bertujuan untuk…", opts: ["Memusatkan kekuasaan","Mencegah penyalahgunaan kekuasaan","Memperkuat presiden","Menghapus hukum"], ans: 1, pembahasan: "Trias Politica - checks and balances" },
+      { q: "Contoh penerapan demokrasi di sekolah adalah…", opts: ["Tawuran","Mencontek","Pemilihan ketua OSIS","Membolos"], ans: 2, pembahasan: "Pemilihan ketua OSIS melalui musyawarah/pemungutan suara" }
+    ],
+  },
   4: {
     title: 'BAB 4 — Budaya Bangsaku',
     questions: [
