@@ -534,24 +534,47 @@
   </div>
   <div class="info-screen">
     <div class="info-body" style="padding:16px 20px;">
-      <div class="refleksi-form" id="refleksi-form">
-        <div class="refleksi-field">
-          <label>📝 Apa yang kamu pelajari hari ini?</label>
-          <textarea rows="3" placeholder="Tuliskan materi yang sudah kamu pahami..." id="r1"></textarea>
+<div class="refleksi-form" id="refleksi-form">
+        <h1 style="font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: var(--green-dark); text-align: center; margin-bottom: 24px; text-shadow: 0 2px 4px var(--shadow);">CiviTrack</h1>
+        
+        <!-- Section 1: Intro Refleksi + BAB List (vertical) -->
+        <div style="background: var(--cream); border: 3px solid var(--gold); border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 6px 20px var(--shadow);">
+          <h2 style="font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--green-dark); margin-bottom: 12px; text-align: center;">Refleksi</h2>
+          <p style="font-size: 1rem; line-height: 1.6; color: var(--text-dark); font-weight: 600; text-align: center; margin-bottom: 18px;">Setelah mengerjakan quiz, silahkan isi refleksi berikut sesuai dengan bab yang sudah di pelajari</p>
+          <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+            <div style="background: var(--green-pale); color: var(--green-dark); font-family: 'Fredoka One', cursive; font-size: 1.3rem; font-weight: 700; padding: 12px 24px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow);">BAB 1</div>
+            <div style="background: var(--green-pale); color: var(--green-dark); font-family: 'Fredoka One', cursive; font-size: 1.3rem; font-weight: 700; padding: 12px 24px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow);">BAB 2</div>
+            <div style="background: var(--green-pale); color: var(--green-dark); font-family: 'Fredoka One', cursive; font-size: 1.3rem; font-weight: 700; padding: 12px 24px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow);">BAB 3</div>
+            <div style="background: var(--green-pale); color: var(--green-dark); font-family: 'Fredoka One', cursive; font-size: 1.3rem; font-weight: 700; padding: 12px 24px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow);">BAB 4</div>
+            <div style="background: var(--green-pale); color: var(--green-dark); font-family: 'Fredoka One', cursive; font-size: 1.3rem; font-weight: 700; padding: 12px 24px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow);">BAB 5</div>
+          </div>
         </div>
-        <div class="refleksi-field">
-          <label>🤔 Apa yang masih belum kamu pahami?</label>
-          <textarea rows="3" placeholder="Tuliskan bagian yang masih sulit dipahami..." id="r2"></textarea>
+        
+        <!-- Section 2: Pertanyaan Refleksi -->
+        <div style="background: var(--cream); border: 3px solid var(--gold); border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 6px 20px var(--shadow);">
+          <h2 style="font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--green-dark); margin-bottom: 18px; text-align: center;">Refleksi</h2>
+          <ol style="display: flex; flex-direction: column; gap: 16px; font-weight: 700; color: var(--text-dark);">
+            <li style="font-size: 1.05rem; margin-bottom: 8px;">"Materi pada Bab ini menurut kamu?"</li>
+            <li style="font-size: 1.05rem; margin-bottom: 8px;">"Apa yang kamu pahami dari materi ini?"</li>
+            <li style="font-size: 1.05rem; margin-bottom: 8px;">"Meteri apa yang menurut mu sulit?"</li>
+          </ol>
+          <div class="refleksi-field">
+            <textarea rows="3" placeholder="tulis jawabanmu disini!" id="r1" style="font-size: 1rem;"></textarea>
+          </div>
+          <div class="refleksi-field">
+            <textarea rows="3" placeholder="tulis jawabanmu disini!" id="r2" style="font-size: 1rem;"></textarea>
+          </div>
+          <div class="refleksi-field">
+            <textarea rows="3" placeholder="tulis jawabanmu disini!" id="r3" style="font-size: 1rem;"></textarea>
+          </div>
         </div>
-        <div class="refleksi-field">
-          <label>😊 Bagaimana pengalaman belajarmu hari ini?</label>
-          <textarea rows="2" placeholder="Ceritakan pengalaman belajarmu..." id="r3"></textarea>
-        </div>
-        <div class="refleksi-field">
-          <label>⭐ Seberapa menarik media ini? (<span id="rating-val">3</span>/5)</label>
-          <input type="range" min="1" max="5" value="3" id="rating" oninput="document.getElementById('rating-val').textContent=this.value">
-        </div>
-        <button class="refleksi-submit" onclick="submitRefleksi()">Kirim Refleksi ✨</button>
+        
+        <!-- Quote bottom -->
+        <blockquote style="background: var(--green-mid); color: var(--white); font-style: italic; font-size: 1.1rem; padding: 20px; border-radius: 12px; text-align: center; font-weight: 600; margin-bottom: 20px; box-shadow: 0 4px 16px var(--shadow);">
+          “Belajar hari ini adalah langkah untuk menjadi lebih baik esok hari.”
+        </blockquote>
+        
+        <button class="refleksi-submit" onclick="submitRefleksi()" style="margin-top: 12px;">Kirim Refleksi ✨</button>
       </div>
       <div class="refleksi-success" id="refleksi-success">
         <div class="refleksi-success-icon">🎉</div>
