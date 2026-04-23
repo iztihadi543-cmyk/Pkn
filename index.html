@@ -968,7 +968,7 @@ function renderQuizChapterList() {
     const done = completedQuizzes[chapter];
     return `
       <button class="quiz-chapter-btn${done ? ' disabled' : ''}" ${done ? 'disabled' : `onclick="startQuiz(${chapter})"`}>
-        BAB ${chapter} — ${data.title}
+        ${data.title}
         <span>${done ? '✓ Selesai' : '▶'}</span>
       </button>
     `;
@@ -1103,10 +1103,21 @@ function resetRefleksi() {
 
 // Play background sound on load
 window.addEventListener('load', function() {
-  // Due to browser autoplay policy, play on first user interaction
+  const bg = document.getElementById('background-sound');
+  const correct = document.getElementById('correct-sound');
+  const wrong = document.getElementById('wrong-sound');
+  if (bg) {
+    bg.loop = true;
+    bg.volume = 0.3;
+  }
+  if (correct) correct.volume = 0.9;
+  if (wrong) wrong.volume = 0.9;
+
   document.addEventListener('click', function() {
-    document.getElementById('background-sound').play();
-  }, {once: true});
+    if (bg && bg.paused) {
+      bg.play().catch(() => {});
+    }
+  });
 });
 </script>
 </body>
