@@ -1069,7 +1069,10 @@ function resetRefleksi() {
 
 // Play background sound on load
 window.addEventListener('load', function() {
-  document.getElementById('background-sound').play();
+  // Due to browser autoplay policy, play on first user interaction
+  document.addEventListener('click', function() {
+    document.getElementById('background-sound').play();
+  }, {once: true});
 });
 </script>
 </body>
