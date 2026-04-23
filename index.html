@@ -196,7 +196,8 @@
     background: var(--cream); border-radius: 8px; padding: 10px 14px;
     box-shadow: 0 2px 8px var(--shadow);
   }
-  .nilai-icon { font-size: 1.6rem; }
+  .nilai-icon { font-size: 1.6rem; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
+  .nilai-icon img { width: 100%; height: 100%; object-fit: contain; }
   .nilai-sila { font-family: 'Fredoka One', cursive; color: var(--green-dark); font-size: 1rem; flex: 1; }
   .nilai-arrow { color: var(--green-mid); font-size: 1.4rem; }
   .nilai-name { font-family: 'Fredoka One', cursive; color: var(--green-dark); font-size: 1rem; }
@@ -318,6 +319,7 @@
     transition: all 0.2s; display: flex; align-items: center; justify-content: space-between;
   }
   .quiz-chapter-btn:hover { background: var(--green-mid); color: var(--white); border-color: var(--green-mid); transform: translateX(6px); }
+  .quiz-chapter-btn.disabled { opacity: 0.5; cursor: not-allowed; background: var(--cream); color: var(--text-dark); border-color: var(--text-dark); }
 
   /* ===== BOTTOM BAR ===== */
   .bottombar {
@@ -507,13 +509,7 @@
     <button class="topbar-home-btn" onclick="show('main-menu')">🏠</button>
   </div>
   <div style="flex:1; overflow-y:auto;">
-      <div class="quiz-chapter-select">
-      <div class="quiz-chapter-btn" onclick="startQuiz(1)">BAB 1 — Kedudukan dan Fungsi Pancasila <span>▶</span></div>
-      <div class="quiz-chapter-btn" onclick="startQuiz(2)">BAB 2 — Bentuk dan Kedaulatan Negara <span>▶</span></div>
-      <div class="quiz-chapter-btn" onclick="startQuiz(3)">BAB 3 — Tata Negara dan Pemerintahan <span>▶</span></div>
-      <div class="quiz-chapter-btn" onclick="startQuiz(4)">BAB 4 — Melestarikan Budaya Bangsaku <span>▶</span></div>
-      <div class="quiz-chapter-btn" onclick="startQuiz(5)">BAB 5 — Merawat Keutuhan Bangsa <span>▶</span></div>
-    </div>
+      <div class="quiz-chapter-select" id="quiz-chapter-list"></div>
   </div>
   <div class="bottombar">Belajar hari ini, menjadi warga negara yang lebih baik di masa depan</div>
 </div>
@@ -597,8 +593,15 @@
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  if (id === 'quiz-chapter-select') {
+    renderQuizChapterList();
+  }
   window.scrollTo(0,0);
 }
+
+window.addEventListener('DOMContentLoaded', function() {
+  renderQuizChapterList();
+});
 
 // ===== MATERI DATA =====
 let currentMateri = 1;
@@ -623,11 +626,11 @@ const materiData = {
         section: 'Nilai yang Terkandung dalam Pancasila',
         html: `
           <div class="nilai-grid">
-            <div class="nilai-row"><span class="nilai-icon">⭐</span><span class="nilai-sila">Sila ke-1</span><span class="nilai-arrow">→</span><span class="nilai-name">Ketuhanan</span></div>
-            <div class="nilai-row"><span class="nilai-icon">⛓️</span><span class="nilai-sila">Sila ke-2</span><span class="nilai-arrow">→</span><span class="nilai-name">Kemanusiaan</span></div>
-            <div class="nilai-row"><span class="nilai-icon">🌳</span><span class="nilai-sila">Sila ke-3</span><span class="nilai-arrow">→</span><span class="nilai-name">Persatuan</span></div>
-            <div class="nilai-row"><span class="nilai-icon">🐂</span><span class="nilai-sila">Sila ke-4</span><span class="nilai-arrow">→</span><span class="nilai-name">Kerakyatan</span></div>
-            <div class="nilai-row"><span class="nilai-icon">🌾</span><span class="nilai-sila">Sila ke-5</span><span class="nilai-arrow">→</span><span class="nilai-name">Keadilan</span></div>
+            <div class="nilai-row"><span class="nilai-icon"><img src="sila1.png" alt="Sila 1"></span><span class="nilai-sila">Sila ke-1</span><span class="nilai-arrow">→</span><span class="nilai-name">Ketuhanan</span></div>
+            <div class="nilai-row"><span class="nilai-icon"><img src="sila2.png" alt="Sila 2"></span><span class="nilai-sila">Sila ke-2</span><span class="nilai-arrow">→</span><span class="nilai-name">Kemanusiaan</span></div>
+            <div class="nilai-row"><span class="nilai-icon"><img src="sila3.png" alt="Sila 3"></span><span class="nilai-sila">Sila ke-3</span><span class="nilai-arrow">→</span><span class="nilai-name">Persatuan</span></div>
+            <div class="nilai-row"><span class="nilai-icon"><img src="sila4.png" alt="Sila 4"></span><span class="nilai-sila">Sila ke-4</span><span class="nilai-arrow">→</span><span class="nilai-name">Kerakyatan</span></div>
+            <div class="nilai-row"><span class="nilai-icon"><img src="sila5.png" alt="Sila 5"></span><span class="nilai-sila">Sila ke-5</span><span class="nilai-arrow">→</span><span class="nilai-name">Keadilan</span></div>
           </div>
         `
       },
@@ -950,8 +953,39 @@ let currentQuizChapter = null;
 let currentQuizQ = 0;
 let quizScore = 0;
 let quizAnswered = false;
+let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes') || '{}');
+
+function saveCompletedQuizzes() {
+  localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
+}
+
+function renderQuizChapterList() {
+  const container = document.getElementById('quiz-chapter-list');
+  if (!container) return;
+  container.innerHTML = Object.keys(quizData).map(key => {
+    const chapter = Number(key);
+    const data = quizData[chapter];
+    const done = completedQuizzes[chapter];
+    return `
+      <button class="quiz-chapter-btn${done ? ' disabled' : ''}" ${done ? 'disabled' : `onclick="startQuiz(${chapter})"`}>
+        BAB ${chapter} — ${data.title}
+        <span>${done ? '✓ Selesai' : '▶'}</span>
+      </button>
+    `;
+  }).join('');
+}
+
+function markQuizCompleted(chapter) {
+  completedQuizzes[chapter] = true;
+  saveCompletedQuizzes();
+  renderQuizChapterList();
+}
 
 function startQuiz(chapter) {
+  if (completedQuizzes[chapter]) {
+    alert('Bab ini sudah dikerjakan. Silakan pilih bab lain.');
+    return;
+  }
   currentQuizChapter = chapter;
   currentQuizQ = 0;
   quizScore = 0;
@@ -1045,6 +1079,7 @@ function showQuizResult() {
       <button class="result-btn" style="background:var(--cream);color:var(--green-dark);border:2px solid var(--green-mid);margin-top:8px;" onclick="show('quiz-chapter-select')">← Pilih Bab Lain</button>
     </div>
   `;
+  markQuizCompleted(currentQuizChapter);
 }
 
 // ===== REFLEKSI =====
