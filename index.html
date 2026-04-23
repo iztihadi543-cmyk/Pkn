@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <audio id="correct-sound" src="benar.mp3" preload="auto"></audio>
 <audio id="wrong-sound" src="salah.mp3" preload="auto"></audio>
+<audio id="background-sound" src="backsound.mp3" loop preload="auto"></audio>
 <style>
   :root {
     --green-dark: #2d5a3d;
@@ -1065,6 +1066,11 @@ function resetRefleksi() {
   document.getElementById('refleksi-form').style.display = 'flex';
   document.getElementById('refleksi-success').classList.remove('show');
 }
+
+// Play background sound on load
+window.addEventListener('load', function() {
+  document.getElementById('background-sound').play();
+});
 </script>
 </body>
 </html>
